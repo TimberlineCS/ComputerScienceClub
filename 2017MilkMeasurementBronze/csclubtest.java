@@ -40,17 +40,17 @@ public class csclubtest {
 	}
 	public static void main(String[] args) {
         int n =io.nextInt(); //input a from the user
-        boolean[] is_max = new boolean[3];
+        boolean[] is_max = new boolean[3]; //leader array
         is_max[0] = is_max[1] = is_max[2] = true;
 
-        int[] vals = new int[3];
+        int[] vals = new int[3]; //milk
         vals[0] = vals[1] = vals[2] = 7;
 
 
-        int[] edit_val = new int[101];
-        int[] edit_who = new int[101];
+        int[] edit_val = new int[101]; //delta array
+        int[] edit_who = new int[101]; //names array
 
-        for (int i=0;i<n;i++) {
+        for (int i=0;i<n;i++) { //loop over all changes, read in.
             int day = io.nextInt();
             String name = io.next();
             int delta = io.nextInt();
@@ -65,27 +65,28 @@ public class csclubtest {
         }
 
         int num_changes = 0;
-        for (int i=0;i<=100;i++) {
+        //overall time complexity is o(nm), n is the number of changes, m is the number of cows
+        for (int i=0;i<=100;i++) { //loop over all changes o(n)
             vals[edit_who[i]] += edit_val[i]; //applies the update
             int max = Math.max(vals[0], Math.max(vals[1], vals[2]));
 
             boolean[] next_max = new boolean[3];
-            for (int j=0;j<3;j++) {
+            for (int j=0;j<3;j++) { //compute the subsequent leaders array o(m)
                 if (vals[j]==max)
                     next_max[j] = true;
             }
 
-            for (int j=0;j<3;j++)
+            for (int j=0;j<3;j++) //we compare the next and current leaders array
                 if (is_max[j]!=next_max[j]) {
                     num_changes++;
                     break;
                 }
 
-            for (int j=0;j<3;j++)
+            for (int j=0;j<3;j++) //update the leaders array
                 is_max[j] = next_max[j];
         }
 
-        io.println(num_changes);
+        io.println(num_changes); //print final answer
         io.close();
 	}
 }
